@@ -1,11 +1,11 @@
 {
-  "name": "pomelo-client-node-ws",
-  "version": "1.0.9",
-  "description": "pomelo client written in node.js based ws",
+  "name": "pomelo-node-client",
+  "version": "0.0.3",
+  "description": "pomelo client written in node",
   "keywords": [
     "pomelo",
     "pomelo-client",
-    "pomelo-client-node"
+    "pomelo-node-client"
   ],
   "main": "index.js",
   "dependencies": {
@@ -16,17 +16,17 @@
     "ws": "^5.1.0"
   },
   "devDependencies": {},
-  "author": "yangfch3",
+  "author": "lixw",
   "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yangfch3/pomelo-client-node"
+    "url": "https://github.com/sex-pomelo/pomelo-client-node-ws"
   },
   "bugs": {
-    "url": "https://github.com/yangfch3/pomelo-client-node/issues"
+    "url": "https://github.com/sex-pomelo/pomelo-client-node-ws/issues"
   },
-  "homepage": "https://github.com/yangfch3/pomelo-client-node#readme"
+  "homepage": "https://github.com/sex-pomelo/pomelo-client-node-ws#readme"
 }
