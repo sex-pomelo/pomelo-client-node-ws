@@ -1,4 +1,4 @@
-# pomelo-client-node-ws
+# pomelo-node-client
 Pomelo 客户端的 Node.js 实现，适用于 `hybridconnector` 型 `connector`。
 
 ## Features
@@ -7,14 +7,16 @@ Pomelo 客户端的 Node.js 实现，适用于 `hybridconnector` 型 `connector`
 3. `wss` 协议支持
 4. `protobuf` 支持
 5. 客户端实例新增 `__CLIENT_ROUTE` 事件用于对所有服务器端推送消息进行统一处理
+6. 默认支持自动重连
+7. 支持TS智能提示
 
 ## Usage
 ```
-npm i pomelo-client-node-ws --save
+npm i pomelo-node-client --save
 ```
 
 ```javascript
-const Pomelo = require('pomelo-client-node-ws');
+const Pomelo = require('pomelo-node-client');
 const pomelo = new Pomelo();
 
 pomelo.init({

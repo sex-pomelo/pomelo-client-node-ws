@@ -19,7 +19,7 @@ const RES_OLD_CLIENT = 501
 
 const DEFAULT_MAX_RECONNECT_ATTEMPTS = 10
 
-class Pomelo extends EventEmitter {
+class PomeloClient extends EventEmitter {
   constructor () {
     super()
 
@@ -52,7 +52,7 @@ class Pomelo extends EventEmitter {
     this.reconncetTimer = null
     this.reconnectUrl = null
     this.reconnectAttempts = 0
-    this.reconnectionDelay = 5000
+    this.reconnectionDelay = Math.round(Math.random() * 4000 + 1000)
     this.maxReconnectAttempts = DEFAULT_MAX_RECONNECT_ATTEMPTS
 
     this.useCrypto = false
@@ -68,6 +68,21 @@ class Pomelo extends EventEmitter {
     this.initCallback = null
   }
 
+  /**
+   * 初始化连接
+   * @param {Object} params 
+   * @param {String} params.host
+   * @param {String} params.port
+   * @param {String} [params.scheme] - ws
+   * @param {any} [params.user] - 任何握手的用户定制的数据
+   * @param {Function} [params.encode]
+   * @param {Function} [params.decode]
+   * @param {Boolean} [params.encrypt]
+   * @param {Function} [params.handshakeCallback]
+   * @param {Boolean} [params.reconnect]
+   * @param {Number} [params.maxReconnectAttempts]
+   * @param {Function} cb 
+   */
   init (params, cb) {
     this.handlers[Package.TYPE_HANDSHAKE] = this.handshake.bind(this)
     this.handlers[Package.TYPE_HEARTBEAT] = this.heartbeat.bind(this)
@@ -148,13 +163,11 @@ class Pomelo extends EventEmitter {
     }
     let onerror = function (event) {
       self.emit('io-error', event)
-      console.error('socket error: ', event)
     }
     let onclose = function (event) {
       self.emit('close', event)
       self.emit('disconnect', event)
-      console.warn('socket close: ', event.target.url, event)
-      if (params.reconnect && self.reconnectAttempts < self.maxReconnectAttempts) {
+      if (params.reconnect !== false && self.reconnectAttempts < self.maxReconnectAttempts) {
         self.reconnect = true
         self.reconnectAttempts++
         self.reconncetTimer = setTimeout(function () {
@@ -164,7 +177,6 @@ class Pomelo extends EventEmitter {
       }
     }
     self.socket = new WebSocket(url)
-    console.log('connect to ' + url)
     self.socket.binaryType = 'arraybuffer'
     self.socket.onopen = onopen.bind(this)
     self.socket.onmessage = onmessage.bind(this)
@@ -214,7 +226,6 @@ class Pomelo extends EventEmitter {
     if (this.socket) {
       if (this.socket.disconnect) this.socket.disconnect()
       if (this.socket.close) this.socket.close()
-      console.log('disconnect')
       this.socket = null
     }
 
@@ -230,7 +241,7 @@ class Pomelo extends EventEmitter {
 
   reset () {
     this.reconnect = false
-    this.reconnectionDelay = 1000 * 5
+    this.reconnectionDelay = Math.round(Math.random() * 4000 + 1000)
     this.reconnectAttempts = 0
     clearTimeout(this.reconncetTimer)
   }
@@ -279,7 +290,7 @@ class Pomelo extends EventEmitter {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.socket.send(packet)
     } else {
-      console.warn('socket is not open: readyState ' + (this.socket ? this.socket.readyState : -1))
+      this.emit('error', 'socket is not open: readyState ' + (this.socket ? this.socket.readyState : -1));
     }
   }
 
@@ -319,7 +330,6 @@ class Pomelo extends EventEmitter {
         self.heartbeatTimeoutCb()
       }, gap)
     } else {
-      console.error('server heartbeat timeout')
       this.emit('heartbeat timeout')
       this.disconnect()
     }
@@ -474,4 +484,4 @@ class Pomelo extends EventEmitter {
   }
 }
 
-module.exports = Pomelo
+module.exports = PomeloClient
