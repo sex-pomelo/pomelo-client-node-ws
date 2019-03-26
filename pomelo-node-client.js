@@ -222,7 +222,7 @@ class PomeloClient extends EventEmitter {
     return Message.encode(reqId, type, compressRoute, route, msg)
   }
 
-  disconnect () {
+  disconnect (force) {
     if (this.socket) {
       if (this.socket.disconnect) this.socket.disconnect()
       if (this.socket.close) this.socket.close()
@@ -236,6 +236,12 @@ class PomeloClient extends EventEmitter {
     if (this.heartbeatTimeoutId) {
       clearTimeout(this.heartbeatTimeoutId)
       this.heartbeatTimeoutId = null
+    }
+    if (force) {
+      if (this.reconncetTimer) {
+        clearTimeout(this.reconncetTimer);
+        this.reconnectAttempts = this.maxReconnectAttempts;
+      }
     }
   }
 

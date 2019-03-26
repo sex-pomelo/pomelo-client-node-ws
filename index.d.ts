@@ -14,7 +14,7 @@ interface InitParams {
     encode?: (reqId: number, route: string, msg: object) => any;
     decode?: (data: any) => object;
     encrypt?: boolean;
-    
+
     handshakeCallback?: Cb1;
 
     user?: any;
@@ -24,7 +24,7 @@ interface InitParams {
 declare class PomeloClient extends EventEmitter {
     init(params: InitParams, cb: Cb0): void;
 
-    disconnect(): void;
+    disconnect(force?: boolean): void;
 
     request(route: string, msg: any, cb: Cb1): void;
     

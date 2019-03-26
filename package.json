@@ -1,6 +1,6 @@
 {
   "name": "pomelo-node-client",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "pomelo client written in node",
   "keywords": [
     "pomelo",
