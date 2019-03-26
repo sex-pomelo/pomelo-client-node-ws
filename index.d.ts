@@ -5,7 +5,7 @@ type Cb1 = (result: any) => void;
 type Cb2 = (err: null | Error, result: any) => void;
 interface InitParams {
     host: string;
-    port: string;
+    port: string | number;
     scheme?: string;                // 默认 ws
 
     reconnect?: boolean;            // 默认true
@@ -13,8 +13,9 @@ interface InitParams {
     
     encode?: (reqId: number, route: string, msg: object) => any;
     decode?: (data: any) => object;
-    encrypt: boolean;
-    handshakeCallback: Cb1;
+    encrypt?: boolean;
+    
+    handshakeCallback?: Cb1;
 
     user?: any;
 
